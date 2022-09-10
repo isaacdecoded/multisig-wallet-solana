@@ -1,0 +1,17 @@
+anchor_version = "0.25.0"
+
+[provider]
+cluster = "localnet"
+wallet = "~/.config/solana/id.json"
+
+[programs.mainnet]
+multisig_wallet = "4NGvJq94MGwTah7VcaMJPfNG94iqxtRPqWNEibTr5qCe"
+
+[programs.devnet]
+multisig_wallet = "4NGvJq94MGwTah7VcaMJPfNG94iqxtRPqWNEibTr5qCe"
+
+[programs.localnet]
+multisig_wallet = "4NGvJq94MGwTah7VcaMJPfNG94iqxtRPqWNEibTr5qCe"
+
+[scripts]
+test = "npx mocha -t 1000000 tests/"

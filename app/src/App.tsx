@@ -110,7 +110,7 @@ export const App: React.FC = () => {
         transactions: [],
       }))
     } catch (e) {
-      console.log(e)
+      console.error(e)
     }
   }
 
@@ -119,10 +119,8 @@ export const App: React.FC = () => {
     proposer: string,
     data: string,
   }) {
-    console.log('input', input)
     const provider = await getProvider();
     const program = new Program(idl as any, programID, provider);
-    console.log('program', program)
     const proposerKeypair = input.multisigWallet.ownerKeypairs.find(
       owner => owner.publicKey.toString() === input.proposer,
     );
@@ -167,7 +165,6 @@ export const App: React.FC = () => {
     const txAccount = await program.account.transaction.fetch(
       transaction.publicKey
     );
-    console.log('txAccount', txAccount)
     input.multisigWallet.transactions.push({
       keypair: transaction,
       data: input.data,

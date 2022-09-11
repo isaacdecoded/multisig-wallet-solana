@@ -73,7 +73,15 @@ export const TransactionList: React.FC<Props> = ({
                         <Button
                           type="primary"
                           loading={loading}
-                          onClick={() => onExecute(multisigWallet, transaction)}
+                          onClick={async () => {
+                            try {
+                              setLoading(true)
+                              await onExecute(multisigWallet, transaction)
+                            } catch (e) {
+                              console.error(e)
+                            }
+                            setLoading(false)
+                          }}
                         >
                           Execute
                         </Button>

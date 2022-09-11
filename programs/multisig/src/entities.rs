@@ -1,24 +1,13 @@
 use anchor_lang::prelude::*;
 use anchor_lang::solana_program::instruction::Instruction;
 
-#[derive(Accounts)]
-pub struct Auth<'info> {
-	#[account(mut)]
-	pub multisig_wallet: Box<Account<'info, MultisigWallet>>,
-	#[account(
-    seeds = [multisig_wallet.key().as_ref()],
-    bump = multisig_wallet.nonce,
-	)]
-	multisig_signer: Signer<'info>,
-}
-
 #[account]
 pub struct MultisigWallet {
 	pub owners: Vec<Pubkey>,
 	pub threshold: u64,
 	pub nonce: u8,
 	pub owner_set_seqno: u32,
-	pub data: String,
+	pub data: Option<String>,
 }
 
 #[account]
@@ -27,11 +16,11 @@ pub struct Transaction {
 	pub multisig: Pubkey,
 	// Target program to execute against.
 	pub program_id: Pubkey,
-	// Accounts requried for the transaction.
+	// Accounts required for the transaction.
 	pub accounts: Vec<TransactionAccount>,
 	// Instruction data for the transaction.
 	pub data: Vec<u8>,
-	// signers[index] is true iff multisig.owners[index] signed the transaction.
+	// signers[index] is true if multisig.owners[index] signed the transaction.
 	pub signers: Vec<bool>,
 	// Boolean ensuring one time execution.
 	pub did_execute: bool,

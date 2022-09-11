@@ -1,15 +1,5 @@
 use anchor_lang::prelude::*;
 
-pub fn assert_unique_owners(owners: &[Pubkey]) -> Result<()> {
-	for (i, owner) in owners.iter().enumerate() {
-		require!(
-			!owners.iter().skip(i + 1).any(|item| item == owner),
-			UniqueOwners
-		)
-	}
-	Ok(())
-}
-
 #[error_code]
 pub enum ErrorCode {
 	#[msg("The given owner is not part of this multisig.")]

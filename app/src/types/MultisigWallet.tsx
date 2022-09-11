@@ -1,5 +1,5 @@
-import { web3 } from "@project-serum/anchor";
-import { MultisigWalletTransaction } from "./MultisigWalletTransaction";
+import { web3 } from '@project-serum/anchor';
+import { MultisigWalletTransaction } from './MultisigWalletTransaction';
 
 export interface MultisigWallet {
   keypair: web3.Keypair

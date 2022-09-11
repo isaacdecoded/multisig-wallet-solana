@@ -1,2 +1,2 @@
-export * from './MultisigWallet'
-export * from './MultisigWalletTransaction'
+export * from './MultisigWallet';
+export * from './MultisigWalletTransaction';

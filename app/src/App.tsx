@@ -27,10 +27,10 @@ import 'antd/dist/antd.css';
 require('@solana/wallet-adapter-react-ui/styles.css');
 
 const endPoint = clusterApiUrl("devnet");
-const wallets = [new PhantomWalletAdapter()]
+const wallets = [new PhantomWalletAdapter()];
 const opts = {
   preflightCommitment: "processed" as any
-}
+};
 const programID = new PublicKey(idl.metadata.address);
 
 export const App: React.FC = () => {
@@ -44,17 +44,17 @@ export const App: React.FC = () => {
   ) {
     multisigWallet.transactions = multisigWallet.transactions.map(t => {
       if (t.keypair.publicKey === transaction.keypair.publicKey) {
-        return transaction
+        return transaction;
       }
-      return t
+      return t;
     })
     const newState = multisigWallets.map(mw => {
       if (mw.keypair.publicKey === multisigWallet.keypair.publicKey) {
-        return multisigWallet
+        return multisigWallet;
       }
-      return mw
-    })
-    setMultisigWallets(newState)
+      return mw;
+    });
+    setMultisigWallets(newState);
   }
 
   async function getProvider() {
@@ -85,7 +85,7 @@ export const App: React.FC = () => {
         [multisig.publicKey.toBuffer()],
         program.programId,
       );
-      const ownerPublicKeys = owners.map(o => o.publicKey)
+      const ownerPublicKeys = owners.map(o => o.publicKey);
       await program.rpc.createMultisig(ownerPublicKeys, bnThreshold, nonce, {
         accounts: {
           multisig: multisig.publicKey,
@@ -101,16 +101,16 @@ export const App: React.FC = () => {
       let multisigAccount = await program.account.multisigWallet.fetch(
         multisig.publicKey
       );
-      setOwners([])
+      setOwners([]);
       setMultisigWallets(multisigWallets.concat({
         keypair: multisig,
         ownerKeypairs: owners,
         threshold: multisigAccount.threshold,
         owners: multisigAccount.owners,
         transactions: [],
-      }))
+      }));
     } catch (e) {
-      console.error(e)
+      console.error(e);
     }
   }
 
@@ -125,14 +125,14 @@ export const App: React.FC = () => {
       owner => owner.publicKey.toString() === input.proposer,
     );
     if (!proposerKeypair) {
-      throw new Error('Invalid transaction proposer.')
+      throw new Error('Invalid transaction proposer.');
     }
     const data = program.coder.instruction.encode("set_data", {
       data: input.data,
     });
     const transaction = web3.Keypair.generate();
     const txSize = 1000; // Bad practice only for development purposes
-    const [multisigSigner, _] = await web3.PublicKey.findProgramAddress(
+    const [multisigSigner] = await web3.PublicKey.findProgramAddress(
       [input.multisigWallet.keypair.publicKey.toBuffer()],
       program.programId,
     );
@@ -162,9 +162,6 @@ export const App: React.FC = () => {
       ],
       signers: [transaction, proposerKeypair],
     });
-    const txAccount = await program.account.transaction.fetch(
-      transaction.publicKey
-    );
     input.multisigWallet.transactions.push({
       keypair: transaction,
       data: input.data,
@@ -192,7 +189,7 @@ export const App: React.FC = () => {
       owner => owner.publicKey.toString() === approver,
     );
     if (!approverKeypair) {
-      throw new Error('Invalid transaction proposer.')
+      throw new Error('Invalid transaction proposer.');
     }
     await program.rpc.approve({
       accounts: {
@@ -202,8 +199,8 @@ export const App: React.FC = () => {
       },
       signers: [approverKeypair],
     });
-    transaction.signers = transaction.signers.concat(approverKeypair)
-    _refreshMultisigWalletTransaction(multisigWallet, transaction)
+    transaction.signers = transaction.signers.concat(approverKeypair);
+    _refreshMultisigWalletTransaction(multisigWallet, transaction);
   }
 
   async function executeMultisigWalletTransaction(
@@ -212,7 +209,7 @@ export const App: React.FC = () => {
   ) {
     const provider = await getProvider();
     const program = new Program(idl as any, programID, provider);
-    const [multisigSigner, _] = await web3.PublicKey.findProgramAddress(
+    const [multisigSigner] = await web3.PublicKey.findProgramAddress(
       [multisigWallet.keypair.publicKey.toBuffer()],
       program.programId,
     );
@@ -220,7 +217,7 @@ export const App: React.FC = () => {
       .accounts({
         multisigWallet: multisigWallet.keypair.publicKey,
         multisigSigner,
-      })
+      });
     await program.rpc.executeTransaction({
       accounts: {
         multisig: multisigWallet.keypair.publicKey,
@@ -238,8 +235,8 @@ export const App: React.FC = () => {
           isSigner: false,
         }),
     });
-    transaction.executed = true
-    _refreshMultisigWalletTransaction(multisigWallet, transaction)
+    transaction.executed = true;
+    _refreshMultisigWalletTransaction(multisigWallet, transaction);
   }
 
   if (!wallet.connected) {
@@ -265,13 +262,13 @@ const AppWithProvider = () => (
   <ConnectionProvider endpoint={endPoint}>
       <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
-          <div style={{ display: 'flex', justifyContent: 'right', margin: 10 }}>
+          <div style={{ display: 'flex', justifyContent: 'right', padding: 20 }}>
             <WalletMultiButton/>
           </div>
         </WalletModalProvider>
         <App />
       </WalletProvider>
     </ConnectionProvider>
-)
+);
 
 export default AppWithProvider;

@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { Row, Col, Tabs, Button, Form, Select } from "antd";
-import { MultisigWallet } from "../types";
+import { useState } from 'react';
+import { Row, Col, Tabs, Button, Form, Select } from 'antd';
+import { MultisigWallet } from '../types';
 
 interface Props {
   multisigWallet: MultisigWallet
@@ -15,7 +15,7 @@ export const TransactionList: React.FC<Props> = ({
 }) => {
   const [loading, setLoading] = useState(false)
   if (!multisigWallet.transactions || multisigWallet.transactions.length <= 0) {
-    return (<></>)
+    return (<></>);
   }
   return (
     <Row>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, Input, Select } from "antd";
+import { Button, Form, Input, Select } from 'antd';
 import { MultisigWallet } from '../types';
 
 const formItemLayoutWithOutLabel = {
@@ -12,7 +12,7 @@ const formItemLayoutWithOutLabel = {
 interface Props {
   multisigWallet: MultisigWallet
   onCreate: any
-}
+};
 
 const formItemLayout = {
   labelCol: {

@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { Row, Col, Tabs, List, Button, Modal, Divider } from "antd";
+import React, { useState } from 'react';
+import { Row, Col, Tabs, List, Button, Modal, Divider } from 'antd';
 import { TransactionForm } from './TransactionForm';
 import { TransactionList } from './TransactionList';
-import { MultisigWallet } from "../types";
+import { MultisigWallet } from '../types';
 
 interface Props {
   multisigWallets: MultisigWallet[]
   onCreateTransaction: any
   onApproveTransaction: any
   onExecuteTransaction: any
-}
+};
 
 export const MultisigWalletList: React.FC<Props> = ({
   multisigWallets,

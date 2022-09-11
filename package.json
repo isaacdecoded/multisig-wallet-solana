@@ -4,7 +4,8 @@
     "lint": "npx prettier --check tests/",
     "lint:fix": "npx prettier --write tests/",
     "test": "npx anchor test",
-    "deploy": "npx anchor deploy --provider.cluster devnet"
+    "build": "npx anchor build",
+    "deploy-devnet": "npx anchor deploy --provider.cluster devnet"
   },
   "devDependencies": {
     "@solana/wallet-adapter-base": "^0.6.0",

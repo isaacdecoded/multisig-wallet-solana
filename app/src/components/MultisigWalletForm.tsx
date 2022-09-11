@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
 const formItemLayout = {
@@ -22,7 +22,7 @@ const formItemLayoutWithOutLabel = {
 interface Props {
   onCreate: any
   addOwner: any
-}
+};
 
 export const MultisigWalletForm: React.FC<Props> = ({
   onCreate,

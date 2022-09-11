@@ -30,11 +30,11 @@ pub struct Transaction {
 
 impl From<&Transaction> for Instruction {
 	fn from(tx: &Transaction) -> Instruction {
-    Instruction {
-      program_id: tx.program_id,
-      accounts: tx.accounts.iter().map(Into::into).collect(),
-      data: tx.data.clone(),
-    }
+		Instruction {
+			program_id: tx.program_id,
+			accounts: tx.accounts.iter().map(Into::into).collect(),
+			data: tx.data.clone(),
+		}
 	}
 }
 
@@ -47,19 +47,19 @@ pub struct TransactionAccount {
 
 impl From<&TransactionAccount> for AccountMeta {
 	fn from(account: &TransactionAccount) -> AccountMeta {
-    match account.is_writable {
-      false => AccountMeta::new_readonly(account.pubkey, account.is_signer),
-      true => AccountMeta::new(account.pubkey, account.is_signer),
-    }
+		match account.is_writable {
+			false => AccountMeta::new_readonly(account.pubkey, account.is_signer),
+			true => AccountMeta::new(account.pubkey, account.is_signer),
+		}
 	}
 }
 
 impl From<&AccountMeta> for TransactionAccount {
 	fn from(account_meta: &AccountMeta) -> TransactionAccount {
-    TransactionAccount {
-      pubkey: account_meta.pubkey,
-      is_signer: account_meta.is_signer,
-      is_writable: account_meta.is_writable,
-    }
+		TransactionAccount {
+			pubkey: account_meta.pubkey,
+			is_signer: account_meta.is_signer,
+			is_writable: account_meta.is_writable,
+		}
 	}
 }

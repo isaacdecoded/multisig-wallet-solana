@@ -8,13 +8,11 @@ use anchor_lang::solana_program::instruction::Instruction;
 use std::convert::Into;
 use std::ops::Deref;
 
-use crate::entities::{
-	TransactionAccount,
-};
 use crate::use_cases::{
 	Auth,
 	CreateMultisig,
 	CreateTransaction,
+	AccountInput,
 	Approve,
 	ExecuteTransaction,
 	create_multisig_wallet,
@@ -64,7 +62,7 @@ pub mod multisig_wallet {
 	pub fn create_transaction(
 		ctx: Context<CreateTransaction>,
 		pid: Pubkey,
-		accs: Vec<TransactionAccount>,
+		accs: Vec<AccountInput>,
 		data: Vec<u8>,
 	) -> Result<()> {
 		let result = create_multisig_wallet_transaction(

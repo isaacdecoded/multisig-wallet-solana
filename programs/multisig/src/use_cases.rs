@@ -55,7 +55,7 @@ pub fn create_multisig_wallet_transaction (
 	multisig_wallet: &Box<Account<MultisigWallet>>,
 	proposer: &Pubkey,
 	program_id: Pubkey,
-	accounts: Vec<TransactionAccount>,
+	accounts: Vec<AccountInput>,
 	data: Vec<u8>,
 ) -> Result<Transaction> {
 	let owner_index = multisig_wallet
@@ -66,9 +66,17 @@ pub fn create_multisig_wallet_transaction (
 	let mut signers = Vec::new();
 	signers.resize(multisig_wallet.owners.len(), false);
 	signers[owner_index] = true;
+	let transaction_accounts = accounts
+		.iter()
+		.map(|acc| TransactionAccount{
+			is_signer: acc.is_signer,
+			is_writable: acc.is_writable,
+			pubkey: acc.pubkey,
+		})
+		.collect::<Vec<TransactionAccount>>();
 	let transaction = Transaction{
 		program_id,
-		accounts,
+		accounts: transaction_accounts,
 		data,
 		did_execute: false,
 		multisig: multisig_wallet.key(),
@@ -148,3 +156,9 @@ pub struct ExecuteTransaction<'info> {
 	pub transaction: Box<Account<'info, Transaction>>,
 }
 
+#[derive(AnchorSerialize, AnchorDeserialize, Clone)]
+pub struct AccountInput {
+	pub pubkey: Pubkey,
+	pub is_signer: bool,
+	pub is_writable: bool,
+}
